@@ -1,0 +1,12 @@
+<h1>Wellcome EJS</h1>
+
+<%- include("./test2.ejs", {title: "Tieu de test 2"})%> <% for(let item of
+data){ %>
+
+  
+<b
+  >Name : <%=item.name%>
+  <br />
+  <p style="color: green">Price : <%=item.price%></p>
+</b>
+<% }%>
