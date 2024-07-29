@@ -12,13 +12,10 @@ const AuthController = {
     if (users) {
       return res.redirect("/admin/dashboard");
     } else {
-      console.log("Lỗi rồi");
+      console.error("Tài khoản không hợp lệ !");
       error = "Tài khoản không hợp lệ !";
-      // khi view login lên thì luôn chạy phuong thức GET
-      // nên nếu không truyền tham số thì sẽ ko có tham error để check
       res.render("admin/login", { data: { error } });
     }
-    // console.log("isErr", isErr);
   },
   logOut: (req, res) => {
     res.send("/admin/login");

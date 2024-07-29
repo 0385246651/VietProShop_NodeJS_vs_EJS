@@ -1,3 +1,4 @@
+const slug = require('slug');
 const paginate = require('../../common/paginate');
 const CategoryModel = require('../models/category')
 
@@ -23,13 +24,32 @@ const CategoryController = {
     });
   },
   create: (req, res) => {
-    res.render("admin/categories/add_category");
+    res.render("admin/categories/add_category", {data: {}});
+  },
+  store: async (req, res) => {
+    const {body} = req;
+    const isExit = await CategoryModel.findOne({  slug: slug(body.title) });
+    if(!isExit){
+      const category = { 
+        description: body.description ,
+        title : body.title,
+        slug: slug(body.title)
+        }
+     await new CategoryModel(category).save();
+      res.redirect("/admin/categories")
+    }else{
+      console.log("Danh mục đã tồn tại !");
+     let error = "Danh mục đã tồn tại !";
+      res.render("admin/categories/add_category", { data: {error} });
+    }
   },
   edit: (req, res) => {
     res.render("admin/categories/edit_category");
   },
-  del: (req, res) => {
-    res.send("/admin/categories/delete/:id");
+  del: async (req, res) => {
+    const id = req.params.id;
+    await CategoryModel.deleteOne({_id: id});
+    res.redirect("/admin/categories")
   },
 };
 

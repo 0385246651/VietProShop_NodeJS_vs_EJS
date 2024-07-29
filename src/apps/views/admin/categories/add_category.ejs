@@ -21,11 +21,17 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-8">
-                        	<div class="alert alert-danger">Danh mục đã tồn tại !</div>
-                            <form role="form" method="post">
+                        	<%if(data && data.error){%>
+                                <div class="alert alert-danger"><%=data.error%></div>
+                            <%}%>
+                            <form role="form" method="post" action="/admin/categories/store">
                             <div class="form-group">
                                 <label>Tên danh mục:</label>
-                                <input required type="text" name="cat_name" class="form-control" placeholder="Tên danh mục...">
+                                <input required type="text" name="title" class="form-control" placeholder="Tên danh mục...">
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả sản phẩm</label>
+                                <textarea  name="description" class="form-control" rows="3"></textarea>
                             </div>
                             <button type="submit" name="sbm" class="btn btn-success">Thêm mới</button>
                             <button type="reset" class="btn btn-default">Làm mới</button>

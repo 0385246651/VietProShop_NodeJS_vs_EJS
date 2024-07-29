@@ -22,14 +22,39 @@ const UserController = {
     })
   },
   create: (req, res) => {
-    res.render("admin/users/add_user")
+    res.render("admin/users/add_user", {data: {}})
+  },
+  store: async (req, res) => {
+    const {body} = req
+    const isExit  = await UserModel.findOne({email: body.email})
+    console.log( isExit);
+    if (body.password !== body.re_password ) {
+      return res.render("admin/users/add_user", { data: { error: "Mật khẩu và nhập lại mật khẩu không khớp." } });
+    }
+    if(!isExit){
+      let user = {   
+        email: body.email,
+        password: body.password,
+        role: Number(body.role) === 1 ? 'admin' : 'member',
+        full_name: body.full_name
+      }
+      await new UserModel(user).save()
+      res.redirect("/admin/users")
+    }
+    else{
+      console.error("Email đã tồn tại !");
+      let error = "Email đã tồn tại !"
+      res.render("admin/users/add_user", {data: {error}})
+    }
   },
   edit: (req, res) => {
     res.render("admin/users/edit_user")
   },
-  del: (req, res) => {
-    res.send("/admin/users/delete/:id");
-  },
+  del: async (req, res) => {
+    const {id} = req.params
+    await UserModel.deleteOne({_id: id})
+    res.redirect("/admin/users")
+  }
 };
 
 module.exports = UserController;

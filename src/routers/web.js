@@ -9,6 +9,10 @@ const ProductController = require("../apps/controllers/product");
 const CategoryController = require("../apps/controllers/category");
 const UserController = require("../apps/controllers/user");
 
+
+//import middleware
+const UploadMiddleware = require("../apps/middlewares/upload")
+
 // mặc định controllers đc hệ thống truyền vào req, res
 router.get("/test1", TestController.Test1);
 // router.get("/test2/:id", TestController.Test2);
@@ -27,15 +31,19 @@ router.get("/admin/dashboard", AdminController.index);
 //////////////////
 router.get("/admin/users", UserController.index);
 router.get("/admin/users/create", UserController.create);
+router.post("/admin/users/store", UserController.store);
 router.get("/admin/users/edit/:id", UserController.edit);
 router.get("/admin/users/delete/:id", UserController.del);
 //////////////////
 router.get("/admin/categories", CategoryController.index);
 router.get("/admin/categories/create", CategoryController.create);
+router.post("/admin/categories/store",  CategoryController.store);
 router.get("/admin/categories/edit/:id", CategoryController.edit);
 router.get("/admin/categories/delete/:id", CategoryController.del);
+
 router.get("/admin/products", ProductController.index);
 router.get("/admin/products/create", ProductController.create);
+router.post("/admin/products/store", UploadMiddleware.single("thumbnail"), ProductController.store);
 router.get("/admin/products/edit/:id", ProductController.edit);
 router.get("/admin/products/delete/:id", ProductController.del);
 
