@@ -10,6 +10,8 @@ const AuthController = {
     const users = await UserModel.findOne({ email: email, password: password });
     let error;
     if (users) {
+      req.session.email = email; // lưu thông tin email vào session để truy cập dữ liệu trong các request tiếp theo
+      req.session.password = password;
       return res.redirect("/admin/dashboard");
     } else {
       console.error("Tài khoản không hợp lệ !");
@@ -18,7 +20,8 @@ const AuthController = {
     }
   },
   logOut: (req, res) => {
-    res.send("/admin/login");
+    req.session.destroy();
+    res.redirect("/admin/login");
   },
 };
 

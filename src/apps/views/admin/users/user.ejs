@@ -39,11 +39,10 @@
 						    </tr>
                             </thead>
                             <tbody>
-                                <%let id = 0%>
+                                <% let index = ID; %>
                                 <% for(let user of users){%>
-                                    <%id++%>
                                 <tr>
-                                    <td style=""><%= id%></td>
+                                    <td style=""><%= index%></td>
                                     <td style=""><%= user.full_name%></td>
                                     <td style=""><%= user.email%></td>
                                     <td><span class='label label-<%= user.role === "admin" ? "danger" : "success"%>'' style="text-transform: capitalize;"><%= user.role%></span></td>
@@ -52,6 +51,7 @@
                                         <a href="/admin/users/delete/<%= user.id%>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
                                     </td>
                                 </tr>
+                                <% index++; %> 
                                 <%}%>
                             </tbody>
 						</table>

@@ -1,8 +1,18 @@
 const express = require("express");
 const app = express();
 const config = require("config");
+const session = require("express-session");
 
-// confug template engine ejs tham số 1 là tên thư mục chưa views , tham số 2 là đường dẫn
+//config session
+app.set('trust proxy', 1) 
+app.use(session({ 
+     secret: config.get('app.sessionKey'),
+       resave: false,
+         saveUninitialized: true,
+           cookie: { secure: false 
+}}));
+
+// config template engine ejs tham số 1 là tên thư mục chưa views , tham số 2 là đường dẫn
 // lấy ở config app file default.js
 app.set("views", config.get("app.viewsFolder"));
 app.set("view engine", config.get("app.viewEngine"));

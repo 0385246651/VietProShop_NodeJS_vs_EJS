@@ -36,17 +36,17 @@
 									</tr>
 									</thead>
 									<tbody>
-										<% let id=0%>
+										<% let index = ID; %>
 										<% for (category of categories){ %>
-											<%id++%>
 										<tr>
-											<td style=""><%= id %></td>
+											<td style=""><%= index %></td>
 											<td style=""><%= category.title %></td>
 											<td class="form-group">
 												<a href="/admin/categories/edit/<%= category.id %>" class="btn btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
 												<a href="/admin/categories/delete/<%= category.id %>" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i></a>
 											</td>
 										</tr>
+										<% index++; %> 
 										<% } %>
 									</tbody>
 								</table>
