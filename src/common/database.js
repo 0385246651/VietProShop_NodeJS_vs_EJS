@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
+const config = require("config");
 
 module.exports = () => {
   mongoose
-    .connect("mongodb://127.0.0.1:27017/vp_shop_project")
+    .connect(config.get("db.mongodb"))
     .then(() => console.log("Connected DB!"));
   return mongoose;
 };

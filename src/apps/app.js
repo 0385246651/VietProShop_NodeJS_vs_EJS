@@ -4,13 +4,15 @@ const config = require("config");
 const session = require("express-session");
 
 //config session
-app.set('trust proxy', 1) 
-app.use(session({ 
-     secret: config.get('app.sessionKey'),
-       resave: false,
-         saveUninitialized: true,
-           cookie: { secure: false 
-}}));
+app.set('trust proxy', 1)
+app.use(session({
+  secret: config.get('app.sessionKey'),
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false
+  }
+}));
 
 // config template engine ejs tham số 1 là tên thư mục chưa views , tham số 2 là đường dẫn
 // lấy ở config app file default.js
@@ -32,5 +34,7 @@ app.use(express.json());
 //config router
 // config phải đặt trên router
 app.use(require(config.get("app.router")));
+//router cho api
+app.use(config.get("app.prefixApiVersion"), require('../routers/api'));
 
 module.exports = app;
