@@ -9,4 +9,7 @@ module.exports = {
     viewEngine: "ejs",
     tmpUploadPath: `${__dirname}/../src/tmp`,
     sessionKey: "vietpro_session",
+
+    baseImageUrl: `${__dirname}/../src/public/uploads/images`,
+    app.use("/asset/upload/images", express.static(config.get("app.baseImageUrl")))
 }

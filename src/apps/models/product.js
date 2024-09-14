@@ -46,6 +46,8 @@ const productSchema = new mongoose.Schema(
     },
     name: {
       type: String,
+      //kích hạot tính năng text search của mongoose
+      text: true,
       required: true,
     },
     slug: {

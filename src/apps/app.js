@@ -24,10 +24,14 @@ app.use("/static", express.static(config.get("app.staticFolder")));
 
 //config images  static folder
 app.use("/images", express.static(config.get("app.staticImages")));
+// config towsi file base imgages trogn public
+app.use("/asset/upload/images", express.static(config.get("app.baseImageUrl")));
 
 // http://localhost:9000/static/css/style.css
 //config formdata (lấy du lieu tu form)
 app.use(express.urlencoded({ extended: true }));
+//config lấy dữ liệu json để chạy POST
+app.use(express.json());
 // lấy dữ liệu Json
 app.use(express.json());
 

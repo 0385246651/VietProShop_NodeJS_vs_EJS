@@ -7,9 +7,8 @@ const commentSchema = new mongoose.Schema(
             required: true
         },
         prd_id: {
-            // type: mongoose.Types.ObjectId,
-            // required: true,
-            // ref: "Products",
+            type: mongoose.Types.ObjectId,
+            required: true,
         },
         body: {
             type: String,
@@ -19,9 +18,9 @@ const commentSchema = new mongoose.Schema(
             type: String,
             required: true
         }
-},{
+    }, {
     timestamps: true,
-  }
+}
 )
 
 const CommentModel = mongoose.model('Comments', commentSchema, 'comments')
