@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const config = require("config");
 const session = require("express-session");
+const cookieParser = require('cookie-parser');
 
 //config session
 app.set('trust proxy', 1)
@@ -18,6 +19,8 @@ app.use(session({
 // lấy ở config app file default.js
 app.set("views", config.get("app.viewsFolder"));
 app.set("view engine", config.get("app.viewEngine"));
+//config.cookie
+app.use(cookieParser());
 
 //config static folder định nghĩa đường dẫn /static là đến thư mục public
 app.use("/static", express.static(config.get("app.staticFolder")));

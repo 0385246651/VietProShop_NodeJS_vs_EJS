@@ -9,7 +9,8 @@ module.exports = {
     viewEngine: "ejs",
     tmpUploadPath: `${__dirname}/../src/tmp`,
     sessionKey: "vietpro_session",
-
     baseImageUrl: `${__dirname}/../src/public/uploads/images`,
-    app.use("/asset/upload/images", express.static(config.get("app.baseImageUrl")))
+
+    jwtAccessKey: process.env.JWT_ACCESS_KEY || "vietproAccessKey",
+    jwtRefreshKey: process.env.JWT_REFRESH_KEY || "vietproRefreshKey"
 }
