@@ -31,8 +31,12 @@ router.post("/order", OrderController.order);
 //customer 
 router.post("/customers/register", AuthController.registerCustomer);
 router.post("/customers/login", AuthController.loginCustomer);
+router.get("/customers/:id/logout", AuthController.logoutCustomer);
 router.get("/customers/:id/orders", OrderController.customerOrder);
 router.get("/customer/orders/:id", OrderController.show);
 router.get("/customer/orders/:id/canceled", OrderController.orderCanceled);
+
+// request refresh token 
+router.get("/customers/refreshtoken", AuthController.requestRefreshToken);
 
 module.exports = router

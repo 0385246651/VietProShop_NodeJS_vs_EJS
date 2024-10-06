@@ -3,6 +3,10 @@ const app = express();
 const config = require("config");
 const session = require("express-session");
 const cookieParser = require('cookie-parser');
+const { connectionRedis, redisClient } = require('../common/init.redis');
+
+// chạy Redis khi khoi dong app
+connectionRedis();
 
 //config session
 app.set('trust proxy', 1)

@@ -1,4 +1,5 @@
 const CustomerModel = require("../../models/customer");
+const TokenModel = require("../../models/token");
 const jwt = require('jsonwebtoken');
 
 const config = require('config');
@@ -8,7 +9,7 @@ const generateAccessToken = async (customer) => {
     const payload = {
         _id: customer.id
     };
-    return await jwt.sign(payload, secretKey, { expiresIn: '1d' });
+    return await jwt.sign(payload, secretKey, { expiresIn: '30s' });
 };
 
 const generateRereshToken = async (customer) => {
@@ -56,6 +57,14 @@ module.exports = {
             if (existedPassword && existedEmail) {
                 const accessToken = await generateAccessToken(existedEmail)
                 const refreshToken = await generateRereshToken(existedEmail)
+
+                //insert token vao database .
+                await new TokenModel({
+                    customerId: existedEmail._id,
+                    accessToken,
+                    refreshToken
+                }).save();
+
                 const { password, ...other } = existedEmail._doc;
                 // console.log(other);
                 // refreshToken lưu vao cookie
@@ -72,5 +81,42 @@ module.exports = {
         } catch (error) {
             return res.status(500).json(err);
         }
+    },
+    logoutCustomer: async (req, res) => {
+        try {
+            const { id } = req.params;
+            // Delete token from DB
+            await TokenModel.deleteOne({ customerId: id });
+            // move asscess token to Redis
+            // redisClient.set('accessToken', "haibaba2k", {
+            //   EX: "30"
+            // })
+            return res.status(200).json("Đăng xuất thành công !")
+        } catch (error) {
+            return res.status(500).json(err);
+        }
+    },
+    requestRefreshToken: async (req, res) => {
+        try {
+            const { refreshToken } = req.cookies;
+            if (!refreshToken) return res.status(401).json("Authentication required");
+            jwt.sign(
+                refreshToken,
+                config.get("app.jwtRefreshKey"),
+                async (err, decoded) => {
+                    console.log("decoded", decoded);
+
+                    if (err) return res.status(401).json("Authentication required");
+
+                    const newAccessToken = await generateAccessToken(decoded);
+                    return res.status(200).json({
+                        message: "Refresh token successful",
+                        accessToken: newAccessToken
+                    });
+                });
+        }
+        catch (error) {
+            return res.status(500).json(error);
+        }
     }
-} 
+}
